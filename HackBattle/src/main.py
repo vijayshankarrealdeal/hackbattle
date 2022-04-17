@@ -2,7 +2,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.inspection import inspect
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import json
 import joblib
 import json
 from datetime import datetime

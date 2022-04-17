@@ -13,6 +13,7 @@ class GPT extends ChangeNotifier {
     try {
       final url = Uri.parse('http://127.0.0.1:8000/${controller.text}');
       final response = await http.get(url);
+      print(response.body);
       dataFinal = (json.decode(response.body) as List)
           .map((dynamic e) => e as Map<String, dynamic>)
           .toList();

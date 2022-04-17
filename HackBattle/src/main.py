@@ -14,7 +14,7 @@ import pickle
 
 
 
-key = "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"
+key = "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"
 gptCall = GPTQuery(key)
 db = create_engine('postgresql://postgres:1234567890@localhost:5432/str')
 io = open("./src/result.json","r")
@@ -50,15 +50,12 @@ app.add_middleware(
 
 @app.get('/{user_query}')
 def index(user_query:str):
-    # user_query = "unique product_Name whose product_Price is more than 200"
-    #statement = gptCall.make_sql_statement(user_query)
-     
-    statement = "select transfer_type, count ( transfer_type) from marketdata group by transfer_type"
+    statement = gptCall.make_sql_statement(user_query)
     result_set = db.execute(statement)
-    #columns = json.dumps()
-
     data = [row._asdict() for row in result_set]
     return data
+
+
 
 @app.get('/datatype/{quer}')
 def giveDtype(quer:str):

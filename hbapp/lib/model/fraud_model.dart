@@ -47,7 +47,7 @@ class FraudData {
   late final num departmentId;
   late final num latitude;
   late final num longitude;
-  late final num orderCustomerId;
+  late final String orderCustomerId;
   late final num orderId;
   late final num orderItemCardprodId;
   late final num orderItemDiscount;
@@ -81,7 +81,7 @@ class FraudData {
     departmentId = json['department_id'] as num;
     latitude = json['latitude'] as num;
     longitude = json['longitude'] as num;
-    orderCustomerId = json['order_customer_id'] as num;
+    orderCustomerId = json['order_customer_id'];
     orderId = json['order_id'] as num;
     orderItemCardprodId = json['order_item_cardprod_id'] as num;
     orderItemDiscount = json['order_item_discount'] as num;

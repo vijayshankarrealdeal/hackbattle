@@ -7,4 +7,3 @@ sklearn
 pandas
 joblib
 neuralprophet
-pickle

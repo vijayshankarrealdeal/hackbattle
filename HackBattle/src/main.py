@@ -13,7 +13,7 @@ import pickle
 
 
 
-key = "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"
+key = "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"
 gptCall = GPTQuery(key)
 db = create_engine('postgresql://postgres:1234567890@localhost:5432/str')
 io = open("./src/result.json","r")
@@ -69,7 +69,9 @@ def say_transaction_isFraud():
     #print(tmp_df)
     qu = f"SELECT {l} from marketdata ORDER BY order_date   limit 100"
     data = db.execute(qu)
+    print(data)
     tmp_df = pd.DataFrame(data.fetchall(),columns=data.keys())
+    
     tmp_df.transfer_type = df_type.fit_transform(tmp_df.transfer_type)
     tmp_df.shipping_mode = df_delStatus.fit_transform(tmp_df.shipping_mode)
     tmp_df.customer_segment = df_CustomerSegment.fit_transform(tmp_df.customer_segment)
@@ -102,7 +104,7 @@ def get_product_price(day,month,year):
     statement = f'''SELECT * from marketdata  where cast(shipping_date as date) = '{month}/{day}/{year}' '''
     result_set = db.execute(statement)
     x = pd.DataFrame(result_set.fetchall() ,columns = result_set.keys())
-    x['shipping_date'] = x['shipping_date'].apply(lambda x : datetime.strptime(x, '%m/%d/%Y %H:%M').date())
+    x['shipping_date'] = x['shipping_date'].apply(lambda x : datetime.strptime(str(x), '%Y-%m-%d %H:%M:%S').date())
     res = pd.DataFrame({'count':x.groupby(['product_name','benefit_per_order']).size()}).reset_index()
     res2 = pd.DataFrame({'count':x.groupby(['order_country','product_name']).size()}).reset_index()
     res3 = pd.DataFrame({'count':x.groupby(['order_country','customer_segment']).size()}).reset_index()
@@ -124,8 +126,7 @@ def monthly_order_profit_order():
     statement = '''select shipping_date,order_Profit_Per_order from marketdata'''
     result_set = db.execute(statement)
     X = pd.DataFrame(result_set.fetchall() ,columns = result_set.keys())
-
-    X['shipping_date'] = [datetime.strptime(date, '%m/%d/%Y %H:%M').date() for date in X.shipping_date]
+    X['shipping_date'] = [datetime.strptime(str(date), '%Y-%m-%d %H:%M:%S').date() for date in X.shipping_date]
     X['month'] = [X.shipping_date[i].month for i in range(len(X))]
     X['year'] = [X.shipping_date[i].year for i in range(len(X))]
     k = {}
@@ -139,7 +140,7 @@ def monthly_order_profit_order():
             except:
                 pass
     new_df = pd.DataFrame(k.items(),columns = ['ds','y'])
-    # print(new_df)
+    new_df["y"] = pd.to_numeric(new_df["y"])
     # m = NeuralProphet()
     # metrics = m.fit(new_df, freq="auto")
     forecast = model_forecast.predict(new_df)

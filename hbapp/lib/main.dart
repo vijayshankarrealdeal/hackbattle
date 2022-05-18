@@ -10,6 +10,7 @@ import 'package:hbapp/dashboard/fraud/fraud_logic.dart';
 import 'package:hbapp/dashboard/monthly_ana/month_analysic_logic.dart';
 import 'package:hbapp/dashboard/products/most_famous_logic.dart';
 import 'package:hbapp/main_controller.dart';
+import 'package:hbapp/no_sql/no_sql_ui.dart';
 import 'package:hbapp/playground/playground_logic.dart';
 import 'package:provider/provider.dart';
 
@@ -54,7 +55,13 @@ class MyApp extends StatelessWidget {
           ),
         ),
         debugShowCheckedModeBanner: false,
-        home: const HomePage(),
+        home: Consumer<BarLogic>(builder: (context, _data, _) {
+          if (_data.defaultX == ConnectionTypeX.sql) {
+            return const HomePage();
+          } else {
+            return const NoSqlUI();
+          }
+        }),
       ),
     );
   }

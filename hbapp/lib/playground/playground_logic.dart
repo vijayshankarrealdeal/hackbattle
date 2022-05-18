@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class PlaygroundLogic extends ChangeNotifier {
@@ -8,13 +8,21 @@ class PlaygroundLogic extends ChangeNotifier {
   List<Map<String, dynamic>> realation = [];
   bool load = false;
 
-  void accept1(String val) {
-    first = val;
+  List<AddMoreDim> widgetMore = [];
+
+  void addMoreDim() {
+    widgetMore.add(AddMoreDim(text: '', callback: () {}));
     notifyListeners();
   }
 
-  void accept2(String val) {
-    second = val;
+  void accept(String val, int index) {
+    widgetMore[index].text = val;
+
+    notifyListeners();
+  }
+
+  void removeItem(int index) {
+    widgetMore.remove(widgetMore[index]);
     notifyListeners();
   }
 
@@ -23,17 +31,29 @@ class PlaygroundLogic extends ChangeNotifier {
     realation.clear();
     notifyListeners();
     try {
-      final url = Uri.parse(
-          'http://127.0.0.1:8000/relation between $first and $second');
+      String _query = 'insight from ';
+      for (var element in widgetMore) {
+        _query += element.text;
+      }
+      _query = _query.substring(0, _query.length - 1);
+
+      final url = Uri.parse('http://127.0.0.1:8000/$_query');
       final response = await http.get(url);
-      print(response.body);
       realation = (json.decode(response.body) as List)
           .map((dynamic e) => e as Map<String, dynamic>)
           .toList();
       load = false;
       notifyListeners();
     } catch (e) {
-      print(e);
+      load = false;
+      notifyListeners();
     }
   }
+}
+
+class AddMoreDim {
+  String text;
+  final Function callback;
+
+  AddMoreDim({required this.text, required this.callback});
 }

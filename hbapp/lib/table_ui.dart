@@ -38,6 +38,7 @@ class DataSinkX {
 }
 
 class DataSinkXDataSource extends DataGridSource {
+  // ignore: non_constant_identifier_names
   DataSinkXDataSource({required List<Map<String, dynamic>> DataSinkXData}) {
     _DataSinkXData = DataSinkXData.map<DataGridRow>(
       (e) {
@@ -50,6 +51,7 @@ class DataSinkXDataSource extends DataGridSource {
     ).toList();
   }
 
+  // ignore: non_constant_identifier_names
   List<DataGridRow> _DataSinkXData = [];
 
   @override
@@ -61,7 +63,7 @@ class DataSinkXDataSource extends DataGridSource {
         cells: row.getCells().map<Widget>((e) {
       return Container(
         alignment: Alignment.center,
-        padding: EdgeInsets.all(8.0),
+        padding:const EdgeInsets.all(8.0),
         child: Text(e.value.toString()),
       );
     }).toList());

@@ -17,7 +17,9 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 enum TabSelect { connect, dashboard, graph, table, trends }
+
 enum GraphList { line, bar, pie, scatter, bubble, histogram }
+
 enum DashBoardItemSelect { forecasting, products, mAna, frauds }
 
 enum ConnectionTypeX { sql, nosql }
@@ -29,6 +31,9 @@ class BarLogic extends ChangeNotifier {
   ConnectionTypeX defaultX = ConnectionTypeX.sql;
 
   bool load = false;
+ 
+
+
 
   void loadBegin() {
     load = true;
@@ -40,30 +45,32 @@ class BarLogic extends ChangeNotifier {
     notifyListeners();
   }
 
+
+
   List<String> numeric = [];
   List<String> mixed = [];
   Future<void> getDataTypes(String data) async {
     if (data == 's') {
       defaultX = ConnectionTypeX.sql;
+      try {
+        final url = Uri.parse('http://127.0.0.1:8000/datatype/$data');
+        final response = await http.get(url);
+        numeric.clear();
+        mixed.clear();
+        Map<String, dynamic> ss = json.decode(response.body);
+        ss.forEach((key, value) {
+          if (value == "integer" || value == "numeric") {
+            numeric.add(key);
+          } else {
+            mixed.add(key);
+          }
+        });
+        notifyListeners();
+      } catch (e) {
+        notifyListeners();
+      }
     } else {
       defaultX = ConnectionTypeX.nosql;
-    }
-    notifyListeners();
-    try {
-      final url = Uri.parse('http://127.0.0.1:8000/datatype/$data');
-      final response = await http.get(url);
-      numeric.clear();
-      mixed.clear();
-      Map<String, dynamic> ss = json.decode(response.body);
-      ss.forEach((key, value) {
-        if (value == "integer" || value == "numeric") {
-          numeric.add(key);
-        } else {
-          mixed.add(key);
-        }
-      });
-      notifyListeners();
-    } catch (e) {
       notifyListeners();
     }
   }
@@ -213,7 +220,10 @@ void alertMessage(BuildContext context) {
                             color: Colors.blue.shade900,
                             child: Text("Unstructured Data",
                                 style: Theme.of(context).textTheme.button),
-                            onPressed: () {}),
+                            onPressed: () {
+                              data.getDataTypes('un');
+                              Navigator.pop(context);
+                            }),
                         const Spacer(),
                         CupertinoButton(
                             child: Text("Back",

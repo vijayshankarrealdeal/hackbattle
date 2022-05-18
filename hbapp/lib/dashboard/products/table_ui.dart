@@ -17,7 +17,7 @@ class FamousItemTable extends StatelessWidget {
             label: Container(
               padding: const EdgeInsets.all(16.0),
               alignment: Alignment.center,
-              child: Text(
+              child:const Text(
                 'Product Name',
               ),
             ),
@@ -27,7 +27,7 @@ class FamousItemTable extends StatelessWidget {
             label: Container(
               padding: const EdgeInsets.all(16.0),
               alignment: Alignment.center,
-              child: Text(
+              child:const Text(
                 'Prodcut Price',
               ),
             ),
@@ -37,7 +37,7 @@ class FamousItemTable extends StatelessWidget {
             label: Container(
               padding: const EdgeInsets.all(16.0),
               alignment: Alignment.center,
-              child: Text(
+              child:const Text(
                 'Order Item Quantity',
                 
               ),

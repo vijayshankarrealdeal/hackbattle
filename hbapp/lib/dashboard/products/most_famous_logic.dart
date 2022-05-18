@@ -43,7 +43,6 @@ class MostFamousLogic extends ChangeNotifier {
           .toList();
       notifyListeners();
     } catch (e) {
-      print(e);
       notifyListeners();
     }
   }

@@ -10,10 +10,11 @@ from sklearn.preprocessing import LabelEncoder
 from neuralprophet import NeuralProphet
 from src.gtp_call import DataAndDataTypes, GPTQuery
 import pickle
+import numpy as np
 
 
 
-key = "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"
+key = "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"
 gptCall = GPTQuery(key)
 db = create_engine('postgresql://postgres:1234567890@localhost:5432/str')
 io = open("./src/result.json","r")
@@ -53,6 +54,51 @@ def index(user_query:str):
     result_set = db.execute(statement)
     data = [row._asdict() for row in result_set]
     return data
+
+
+@app.get('/nosql/first')
+def no_sql_data():
+    df = pd.read_csv('./src/final.csv')
+    x = df.groupby('id').size()
+    prod_det = []
+    main_json = {}
+
+    for i in pd.DataFrame(x).index.values:
+        pos = 0
+        neg = 0
+        for ii in df[df['id'] == i]['label'].values:
+            if ii == 'POSITIVE':
+                pos += 1
+            else:
+                neg += 1
+        ss = set()
+        for kk in df[df['id'] == i]['categories'].values:
+            for word in  kk.split(','):
+                ss.add(word) 
+        pp = {}
+        p = np.mean(df[df['id'] == i]['reviews.rating'])
+        xx = df[df['id'] == i].name.values[0]
+        pp['id'] = i
+        pp['avg_rating'] = round(float(p),3)
+        pp['name'] = xx
+        pp['pos'] = pos
+        pp['neg'] = neg
+        pp['categories'] = list(ss)
+        prod_det.append(pp)
+    ma = 0
+    for i in prod_det:
+        if i['avg_rating'] > ma:
+            ma = i['avg_rating']
+            main_json['trending'] = i['name']
+    main_json['data'] = prod_det
+    return [main_json]
+
+@app.get('/nosql/second/{id}')
+def no_sql_data_sec(id:str):
+    df = pd.read_csv('./src/final.csv')
+    p = df.groupby('id').get_group(id).T.to_dict()
+    return [p[i] for i in p]
+
 
 
 

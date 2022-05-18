@@ -16,9 +16,9 @@ class FraudTable extends StatelessWidget {
         columns: [
           GridColumn(
             label: Container(
-              padding: EdgeInsets.all(16.0),
+              padding:const EdgeInsets.all(16.0),
               alignment: Alignment.center,
-              child: Text(
+              child:const Text(
                 'Transction Type',
               ),
             ),
@@ -26,9 +26,9 @@ class FraudTable extends StatelessWidget {
           ),
           GridColumn(
             label: Container(
-              padding: EdgeInsets.all(16.0),
+              padding:const EdgeInsets.all(16.0),
               alignment: Alignment.center,
-              child: Text(
+              child: const Text(
                 'Customer Segment',
               ),
             ),
@@ -36,9 +36,9 @@ class FraudTable extends StatelessWidget {
           ),
           GridColumn(
             label: Container(
-              padding: EdgeInsets.all(16.0),
+              padding:const EdgeInsets.all(16.0),
               alignment: Alignment.center,
-              child: Text(
+              child:const Text(
                 'Product Price',
               ),
             ),
@@ -46,9 +46,9 @@ class FraudTable extends StatelessWidget {
           ),
           GridColumn(
             label: Container(
-              padding: EdgeInsets.all(16.0),
+              padding:const EdgeInsets.all(16.0),
               alignment: Alignment.center,
-              child: Text(
+              child:const Text(
                 'benefitPerOrder',
               ),
             ),
@@ -56,9 +56,9 @@ class FraudTable extends StatelessWidget {
           ),
           GridColumn(
             label: Container(
-              padding: EdgeInsets.all(16.0),
+              padding:const EdgeInsets.all(16.0),
               alignment: Alignment.center,
-              child: Text(
+              child:const Text(
                 'Fraud',
               ),
             ),
@@ -118,12 +118,12 @@ class DataSinkXDataSource extends DataGridSource {
       return Container(
         color: getRowBackgroundColor(),
         alignment: Alignment.center,
-        padding: EdgeInsets.all(8.0),
+        padding:const EdgeInsets.all(8.0),
         child: e.columnName == "Fraud"
             ? e.value == 0
-                ? Icon(CupertinoIcons.check_mark_circled_solid,
+                ?const Icon(CupertinoIcons.check_mark_circled_solid,
                     color: CupertinoColors.activeGreen)
-                : Icon(CupertinoIcons.clear_circled_solid,
+                :const Icon(CupertinoIcons.clear_circled_solid,
                     color: CupertinoColors.white)
             : Text(e.value.toString()),
       );

@@ -21,5 +21,6 @@ class MyFlutterApp {
   static const _kFontFam = 'MyFlutterApp';
   static const String? _kFontPkg = null;
 
+  // ignore: constant_identifier_names
   static const IconData scatter_plot_1 = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

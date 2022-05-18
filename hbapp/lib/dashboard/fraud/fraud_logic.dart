@@ -21,7 +21,6 @@ class FraudLogic extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print(e);
       notifyListeners();
     }
   }

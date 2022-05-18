@@ -11,6 +11,7 @@ class MonthAnaLogic extends ChangeNotifier {
   bool turn = true;
   Future<void> getDailyAna() async {
     List<CustomerSegmentAna> _ss = [];
+    // ignore: unused_local_variable
     List<TransferTypeCustomer> _ssy = [];
     notifyListeners();
     try {
